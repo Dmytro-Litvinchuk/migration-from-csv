@@ -1,0 +1,47 @@
+id: csv_migration
+label: "Test migration"
+migration_group: csv_group
+source:
+  plugin: csv
+  # Full path to the file.
+  path: modules/custom/csv_migration/data/for_import.csv
+  # Column delimiter. Comma (,) by default.
+  delimiter: ','
+  # Field enclosure. Double quotation marks (") by default.
+  enclosure: '"'
+  # The row to be used as the CSV header (indexed from 0),
+  # or null if there is no header row.
+  header_row_count: 1
+  # The column(s) to use as a key. Each column specified will
+  # create an index in the migration table and too many columns
+  # may throw an index size error.
+  keys:
+    - nid
+  # Here we identify the columns of interest in the source file.
+  # Each numeric key is the 0-based index of the column.
+  # For each column, the key below is the field name assigned to
+  # the data on import, to be used in field mappings below.
+  # The label value is a user-friendly string for display by the
+  # migration UI.
+  column_names:
+    0:
+      nid: 'Node Id'
+    1:
+      price: 'Price'
+    2:
+      old_price: 'Old price'
+    3:
+      field_text_name: 'Name field'
+
+process:
+  nid: nid
+  title: nid
+  field_price_csv: price
+  field_old_price‎: old_price
+  field_text_name: field_text_name
+  type:
+    plugin: default_value
+    default_value: commodity
+
+destination:
+  plugin: entity:node
